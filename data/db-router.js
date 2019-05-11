@@ -21,13 +21,13 @@ const router = express.Router();
         try {
             const hub = await DB.findById(req.params.id);
             
-            if(hub) {
+            if (hub) {
                 res.status(200).json(hub);
             } else {
                 res.status(404).json({
                     message: "The post with the specified ID does not exist."
                 });
-        } 
+            } 
             } catch(error) {
                 console.log(error);
                 res.status(500)({
@@ -53,6 +53,25 @@ const router = express.Router();
             res.status(500)({
                 error: "There was an error while saving the post to the database"
             })
+        }
+    })
+
+    router.delete('/:id', async (req, res) => {
+        try {
+            const hub = await DB.remove(req.params.id); 
+            if (hub) {
+                res.status(200).json({
+                    message: "The post was deleted."
+                })
+            } else {
+                res.status(404).json({
+                    error: "The post with the specified ID does not exist."
+                });
+            }
+        } catch(error) {
+            res.status(500)({
+                error: "The post could not be removed"
+            });
         }
     })
 
