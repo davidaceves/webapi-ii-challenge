@@ -82,12 +82,12 @@ const router = express.Router();
             
             const { title, contents } = req.body; 
 
-            if (!post.length){
+            if (!post){
                 res.status(404).json({ message: "The post with the specified ID does not exist." })
-            } else if (!title && !contents ) {
-                res.status(400)({
+            } else if (!title || !contents) {
+                res.status(400).json({
                     errorMessage: "Please provide title and contents for the post."
-                });
+                }) 
             } else {
                 res.status(200).json(post)
             }
